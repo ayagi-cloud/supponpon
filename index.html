@@ -7,13 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'M PLUS Rounded 1c', sans-serif;
-    background: linear-gradient(135deg, #fdf4ff 0%, #f0f4ff 100%);
-    min-height: 100vh;
-    padding: 2rem 1rem;
-    color: #4c1d95;
-  }
+  body { font-family: 'M PLUS Rounded 1c', sans-serif; background: linear-gradient(135deg, #fdf4ff 0%, #f0f4ff 100%); min-height: 100vh; padding: 2rem 1rem; color: #4c1d95; }
   .container { max-width: 760px; margin: 0 auto; }
   .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 10px; }
   .page-title { font-size: 22px; font-weight: 700; color: #6b21a8; display: flex; align-items: center; gap: 8px; font-family: 'Outfit', sans-serif; letter-spacing: -0.3px; }
@@ -31,9 +25,7 @@
   .metric.m3::after { background: #ec4899; }
   .metric-label { font-size: 11px; color: #a78bca; margin-bottom: 4px; font-weight: 500; }
   .metric-value { font-size: 30px; font-weight: 700; font-family: 'Outfit', sans-serif; }
-  .mv-purple { color: #9333ea; }
-  .mv-orange { color: #ea580c; }
-  .mv-pink { color: #db2777; }
+  .mv-purple { color: #9333ea; } .mv-orange { color: #ea580c; } .mv-pink { color: #db2777; }
   .progress-card { background: #fff; border-radius: 20px; padding: 14px 18px; border: 2px solid #ede9fe; margin-bottom: 1.5rem; }
   .progress-bg { height: 13px; background: #f3e8ff; border-radius: 99px; overflow: hidden; }
   .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #c084fc, #818cf8); transition: width 0.6s ease; }
@@ -48,15 +40,12 @@
   .mc-stats { font-size: 10px; color: #a78bca; margin-left: auto; background: #f5f3ff; padding: 3px 9px; border-radius: 99px; white-space: nowrap; font-weight: 600; }
   .mc-section { padding: 7px 14px; }
   .mc-section-label { font-size: 11px; font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 4px; }
-  .label-invited { color: #059669; }
-  .label-propose { color: #d97706; }
+  .label-invited { color: #059669; } .label-propose { color: #d97706; }
   .person-row { display: flex; align-items: center; gap: 4px; padding: 5px 0; border-top: 1.5px dashed #ede9fe; }
   .person-row:first-of-type { border-top: none; }
   .person-name { font-size: 12px; font-weight: 500; color: #4c1d95; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .badge { font-size: 10px; padding: 2px 8px; border-radius: 99px; flex-shrink: 0; font-weight: 600; }
-  .conf-high { background: #d1fae5; color: #065f46; }
-  .conf-mid  { background: #fef3c7; color: #92400e; }
-  .conf-low  { background: #fee2e2; color: #991b1b; }
+  .conf-high { background: #d1fae5; color: #065f46; } .conf-mid { background: #fef3c7; color: #92400e; } .conf-low { background: #fee2e2; color: #991b1b; }
   .month-tag { font-size: 10px; padding: 2px 8px; border-radius: 99px; background: #ede9fe; color: #6d28d9; flex-shrink: 0; font-weight: 600; }
   .promote-btn { font-size: 10px; padding: 3px 8px; border-radius: 99px; border: none; background: #d1fae5; color: #065f46; cursor: pointer; flex-shrink: 0; white-space: nowrap; font-weight: 600; font-family: 'M PLUS Rounded 1c', sans-serif; transition: background 0.15s; }
   .promote-btn:hover { background: #a7f3d0; }
@@ -81,35 +70,29 @@
 </head>
 <body>
 <div class="container">
-
   <div class="top">
     <h1 class="page-title">🐢 すっぽんチーム 招待管理</h1>
     <div class="deadline-badge">📅 締切：6/11 <span class="days-pill" id="days-badge"></span></div>
   </div>
-
   <div class="sync-bar">
     <span class="dot saving" id="sync-dot"></span>
-    <span id="sync-status">読み込み中…</span>
+    <span id="sync-status">接続中…</span>
   </div>
-
   <div class="metrics">
     <div class="metric m1"><div class="metric-label">✅ 招待済み</div><div class="metric-value mv-purple" id="cnt-inv">–</div></div>
     <div class="metric m2"><div class="metric-label">💬 提案中</div><div class="metric-value mv-orange" id="cnt-pro">–</div></div>
     <div class="metric m3"><div class="metric-label">🎯 残り</div><div class="metric-value mv-pink" id="cnt-rem">–</div></div>
   </div>
-
   <div class="progress-card">
     <div class="progress-bg"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
     <div class="progress-labels"><span id="prog-text">– / 12 人</span><span id="prog-pct">–%</span></div>
   </div>
-
   <div class="section-title">🌸 メンバー別状況</div>
   <div class="members" id="members-grid"></div>
-
 </div>
 <script>
+const FIREBASE_URL = 'https://suppon-6ae21-default-rtdb.asia-southeast1.firebasedatabase.app/suppon.json';
 const TARGET = 12;
-const KEY = 'suppon_v5';
 const MEMBERS = [
   {name:'えりこ', bg:'#e9d5ff', tc:'#6b21a8', init:'え'},
   {name:'のり',   bg:'#bbf7d0', tc:'#065f46', init:'の'},
@@ -118,29 +101,46 @@ const MEMBERS = [
   {name:'千尋',   bg:'#bfdbfe', tc:'#1e40af', init:'千'},
   {name:'ゆうこ', bg:'#fef08a', tc:'#854d0e', init:'ゆ'},
 ];
-
-let state = {
+const DEFAULT_STATE = {
   people: [
     {member:'のり', name:'黒田さん', month:'5月', conf:'高', status:'invited', date:'5/16'},
     {member:'のり', name:'三木くん', month:'4月', conf:'高', status:'invited', date:'5/16'},
   ]
 };
+let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
 let openForms = {}, formConf = {};
 
 function setSyncStatus(ok, msg) {
   document.getElementById('sync-dot').className = 'dot' + (ok ? '' : ' saving');
   document.getElementById('sync-status').textContent = msg;
 }
-function load() {
-  const ls = localStorage.getItem(KEY);
-  if (ls) state = JSON.parse(ls);
-  setSyncStatus(true, 'ローカルに保存されています');
+
+async function load() {
+  try {
+    const r = await fetch(FIREBASE_URL);
+    const data = await r.json();
+    if (data && data.people) state = data;
+    setSyncStatus(true, 'リアルタイム同期中 ✨ みんなで共有されています');
+  } catch(e) {
+    setSyncStatus(false, '接続エラー — オフラインモード');
+  }
   render();
 }
-function save() {
-  localStorage.setItem(KEY, JSON.stringify(state));
-  setSyncStatus(true, '保存しました ✨');
+
+async function save() {
+  setSyncStatus(false, '保存中…');
+  try {
+    await fetch(FIREBASE_URL, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(state)
+    });
+    setSyncStatus(true, 'リアルタイム同期中 ✨ みんなで共有されています');
+  } catch(e) {
+    setSyncStatus(false, '保存失敗 — 再試行してください');
+  }
 }
+
 function daysLeft() {
   const now = new Date(); now.setHours(0,0,0,0);
   const dl = new Date('2025-06-11');
@@ -148,6 +148,7 @@ function daysLeft() {
   const el = document.getElementById('days-badge');
   el.textContent = d > 0 ? '残り' + d + '日' : d === 0 ? '今日が締切！' : '締切超過';
 }
+
 function updateMetrics() {
   const inv = state.people.filter(p => p.status === 'invited').length;
   const pro = state.people.filter(p => p.status === 'propose').length;
@@ -160,11 +161,13 @@ function updateMetrics() {
   document.getElementById('prog-text').textContent = inv + ' / ' + TARGET + ' 人';
   document.getElementById('prog-pct').textContent = pct + '%';
 }
+
 function confBadge(c) {
   const m = {'高':['conf-high','🔥 高確度'],'中':['conf-mid','💬 提案中'],'低':['conf-low','👀 様子見']};
   const [cls, label] = m[c] || ['conf-mid','中'];
   return `<span class="badge ${cls}">${label}</span>`;
 }
+
 function renderMembers() {
   const grid = document.getElementById('members-grid');
   grid.innerHTML = '';
@@ -249,7 +252,7 @@ function renderMembers() {
     btn.onclick = () => { formConf[btn.dataset.member] = btn.dataset.v; render(); };
   });
   grid.querySelectorAll('.add-submit').forEach(btn => {
-    btn.onclick = () => {
+    btn.onclick = async () => {
       const mn = btn.dataset.member;
       const nameEl = document.getElementById('fn-' + mn);
       const name = nameEl ? nameEl.value.trim() : '';
@@ -260,18 +263,21 @@ function renderMembers() {
       const now = new Date();
       state.people.push({ member: mn, name, month, conf, status, date: (now.getMonth()+1)+'/'+now.getDate() });
       openForms[mn] = false; formConf[mn] = '';
-      save(); render();
+      await save(); render();
     };
   });
   grid.querySelectorAll('.promote-btn').forEach(btn => {
-    btn.onclick = () => { state.people[parseInt(btn.dataset.i)].status = 'invited'; save(); render(); };
+    btn.onclick = async () => { state.people[parseInt(btn.dataset.i)].status = 'invited'; await save(); render(); };
   });
   grid.querySelectorAll('.del-btn').forEach(btn => {
-    btn.onclick = () => { state.people.splice(parseInt(btn.dataset.i), 1); save(); render(); };
+    btn.onclick = async () => { state.people.splice(parseInt(btn.dataset.i), 1); await save(); render(); };
   });
 }
+
 function render() { daysLeft(); updateMetrics(); renderMembers(); }
+
 load();
+setInterval(load, 15000);
 </script>
 </body>
 </html>
