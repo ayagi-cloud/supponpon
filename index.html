@@ -4,28 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🐢 すっぽんチーム 招待管理</title>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Zen Maru Gothic', sans-serif;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
     background: linear-gradient(135deg, #fdf4ff 0%, #f0f4ff 100%);
     min-height: 100vh;
     padding: 2rem 1rem;
     color: #4c1d95;
   }
-  .container { max-width: 740px; margin: 0 auto; }
-
+  .container { max-width: 760px; margin: 0 auto; }
   .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 10px; }
-  .page-title { font-size: 22px; font-weight: 700; color: #6b21a8; display: flex; align-items: center; gap: 8px; }
-  .deadline-badge { font-size: 12px; color: #7e22ce; background: #fff; padding: 6px 16px; border-radius: 99px; border: 2px solid #e9d5ff; display: flex; align-items: center; gap: 6px; font-weight: 500; }
+  .page-title { font-size: 22px; font-weight: 700; color: #6b21a8; display: flex; align-items: center; gap: 8px; font-family: 'Outfit', sans-serif; letter-spacing: -0.3px; }
+  .deadline-badge { font-size: 12px; color: #7e22ce; background: #fff; padding: 6px 16px; border-radius: 99px; border: 2px solid #e9d5ff; display: flex; align-items: center; gap: 6px; font-weight: 600; }
   .days-pill { font-size: 11px; padding: 2px 9px; border-radius: 99px; background: #fde68a; color: #92400e; font-weight: 700; }
-
   .sync-bar { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #a78bca; margin-bottom: 1.25rem; }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; flex-shrink: 0; }
   .dot.saving { background: #fb923c; animation: blink 0.8s infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
   .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.25rem; }
   .metric { background: #fff; border-radius: 20px; padding: 1rem; border: 2px solid #ede9fe; text-align: center; position: relative; overflow: hidden; }
   .metric::after { content: ''; position: absolute; bottom: -12px; right: -12px; width: 48px; height: 48px; border-radius: 50%; opacity: 0.12; }
@@ -33,66 +30,53 @@
   .metric.m2::after { background: #f97316; }
   .metric.m3::after { background: #ec4899; }
   .metric-label { font-size: 11px; color: #a78bca; margin-bottom: 4px; font-weight: 500; }
-  .metric-value { font-size: 30px; font-weight: 700; }
+  .metric-value { font-size: 30px; font-weight: 700; font-family: 'Outfit', sans-serif; }
   .mv-purple { color: #9333ea; }
   .mv-orange { color: #ea580c; }
   .mv-pink { color: #db2777; }
-
   .progress-card { background: #fff; border-radius: 20px; padding: 14px 18px; border: 2px solid #ede9fe; margin-bottom: 1.5rem; }
-  .progress-bg { height: 14px; background: #f3e8ff; border-radius: 99px; overflow: hidden; }
+  .progress-bg { height: 13px; background: #f3e8ff; border-radius: 99px; overflow: hidden; }
   .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #c084fc, #818cf8); transition: width 0.6s ease; }
-  .progress-labels { display: flex; justify-content: space-between; font-size: 12px; color: #a78bca; margin-top: 7px; font-weight: 500; }
-
-  .section-title { font-size: 15px; font-weight: 700; color: #6b21a8; margin-bottom: 12px; }
-
+  .progress-labels { display: flex; justify-content: space-between; font-size: 12px; color: #a78bca; margin-top: 7px; font-weight: 600; font-family: 'Outfit', sans-serif; }
+  .section-title { font-size: 15px; font-weight: 700; color: #6b21a8; margin-bottom: 12px; font-family: 'Outfit', sans-serif; letter-spacing: -0.2px; }
   .members { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
   .mc { background: #fff; border-radius: 22px; overflow: hidden; border: 2px solid #ede9fe; transition: transform 0.2s, box-shadow 0.2s; }
   .mc:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(147,51,234,0.1); }
   .mc-head { display: flex; align-items: center; gap: 9px; padding: 12px 14px; }
-  .avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; flex-shrink: 0; border: 2.5px solid rgba(255,255,255,0.9); }
-  .mc-name { font-size: 15px; font-weight: 700; color: #5b21b6; }
-  .mc-stats { font-size: 10px; color: #a78bca; margin-left: auto; background: #f5f3ff; padding: 3px 9px; border-radius: 99px; white-space: nowrap; font-weight: 500; }
-
+  .avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; border: 2.5px solid rgba(255,255,255,0.9); }
+  .mc-name { font-size: 14px; font-weight: 700; color: #5b21b6; font-family: 'Outfit', sans-serif; letter-spacing: -0.2px; }
+  .mc-stats { font-size: 10px; color: #a78bca; margin-left: auto; background: #f5f3ff; padding: 3px 9px; border-radius: 99px; white-space: nowrap; font-weight: 600; }
   .mc-section { padding: 7px 14px; }
   .mc-section-label { font-size: 11px; font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 4px; }
   .label-invited { color: #059669; }
   .label-propose { color: #d97706; }
-
   .person-row { display: flex; align-items: center; gap: 4px; padding: 5px 0; border-top: 1.5px dashed #ede9fe; }
   .person-row:first-of-type { border-top: none; }
   .person-name { font-size: 12px; font-weight: 500; color: #4c1d95; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .badge { font-size: 10px; padding: 2px 8px; border-radius: 99px; flex-shrink: 0; font-weight: 500; }
+  .badge { font-size: 10px; padding: 2px 8px; border-radius: 99px; flex-shrink: 0; font-weight: 600; }
   .conf-high { background: #d1fae5; color: #065f46; }
   .conf-mid  { background: #fef3c7; color: #92400e; }
   .conf-low  { background: #fee2e2; color: #991b1b; }
-  .month-tag { font-size: 10px; padding: 2px 8px; border-radius: 99px; background: #ede9fe; color: #6d28d9; flex-shrink: 0; font-weight: 500; }
-  .promote-btn { font-size: 10px; padding: 3px 8px; border-radius: 99px; border: none; background: #d1fae5; color: #065f46; cursor: pointer; flex-shrink: 0; white-space: nowrap; font-weight: 500; font-family: 'Zen Maru Gothic', sans-serif; transition: background 0.15s; }
+  .month-tag { font-size: 10px; padding: 2px 8px; border-radius: 99px; background: #ede9fe; color: #6d28d9; flex-shrink: 0; font-weight: 600; }
+  .promote-btn { font-size: 10px; padding: 3px 8px; border-radius: 99px; border: none; background: #d1fae5; color: #065f46; cursor: pointer; flex-shrink: 0; white-space: nowrap; font-weight: 600; font-family: 'M PLUS Rounded 1c', sans-serif; transition: background 0.15s; }
   .promote-btn:hover { background: #a7f3d0; }
   .del-btn { background: none; border: none; cursor: pointer; color: #c4b5d4; font-size: 13px; padding: 0 2px; flex-shrink: 0; transition: color 0.15s; }
   .del-btn:hover { color: #f472b6; }
   .empty-msg { font-size: 11px; color: #c4b5d4; padding: 4px 0; font-style: italic; }
-
   .divider { height: 2px; background: #f5f3ff; margin: 2px 0; }
-
   .add-area { padding: 8px 14px; border-top: 2px dashed #e9d5ff; }
-  .add-toggle { display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 12px; color: #9333ea; background: #faf5ff; border: none; border-radius: 99px; padding: 7px 14px; cursor: pointer; width: 100%; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 500; transition: background 0.15s; }
+  .add-toggle { display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 12px; color: #9333ea; background: #faf5ff; border: none; border-radius: 99px; padding: 7px 14px; cursor: pointer; width: 100%; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 500; transition: background 0.15s; }
   .add-toggle:hover { background: #ede9fe; }
-
   .add-form-inner { margin-top: 8px; display: flex; flex-direction: column; gap: 7px; }
-  .add-form-inner input, .add-form-inner select { font-size: 12px; padding: 6px 10px; border: 2px solid #e9d5ff; border-radius: 12px; background: #fff; color: #4c1d95; height: 34px; width: 100%; font-family: 'Zen Maru Gothic', sans-serif; outline: none; transition: border-color 0.15s; }
+  .add-form-inner input, .add-form-inner select { font-size: 12px; padding: 6px 10px; border: 2px solid #e9d5ff; border-radius: 12px; background: #fff; color: #4c1d95; height: 34px; width: 100%; font-family: 'M PLUS Rounded 1c', sans-serif; outline: none; transition: border-color 0.15s; }
   .add-form-inner input:focus, .add-form-inner select:focus { border-color: #a855f7; }
   .conf-mini-row { display: flex; gap: 5px; }
-  .conf-mini { font-size: 11px; padding: 5px 0; border-radius: 99px; border: 2px solid #e9d5ff; background: #fff; cursor: pointer; color: #a78bca; flex: 1; text-align: center; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 500; transition: all 0.15s; }
+  .conf-mini { font-size: 11px; padding: 5px 0; border-radius: 99px; border: 2px solid #e9d5ff; background: #fff; cursor: pointer; color: #a78bca; flex: 1; text-align: center; font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 500; transition: all 0.15s; }
   .conf-mini.ah { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
   .conf-mini.am { background: #fef3c7; color: #92400e; border-color: #fcd34d; }
   .conf-mini.al { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
-  .add-submit { font-size: 13px; padding: 8px; border-radius: 99px; border: none; background: linear-gradient(90deg, #c084fc, #818cf8); color: #fff; cursor: pointer; width: 100%; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; transition: opacity 0.15s; }
+  .add-submit { font-size: 13px; padding: 8px; border-radius: 99px; border: none; background: linear-gradient(90deg, #c084fc, #818cf8); color: #fff; cursor: pointer; width: 100%; font-family: 'Outfit', sans-serif; font-weight: 700; transition: opacity 0.15s; letter-spacing: 0.2px; }
   .add-submit:hover { opacity: 0.85; }
-
-  @media (max-width: 500px) {
-    .metrics { grid-template-columns: repeat(3, 1fr); }
-    .metric-value { font-size: 22px; }
-  }
 </style>
 </head>
 <body>
@@ -100,10 +84,7 @@
 
   <div class="top">
     <h1 class="page-title">🐢 すっぽんチーム 招待管理</h1>
-    <div class="deadline-badge">
-      📅 締切：6/11
-      <span class="days-pill" id="days-badge"></span>
-    </div>
+    <div class="deadline-badge">📅 締切：6/11 <span class="days-pill" id="days-badge"></span></div>
   </div>
 
   <div class="sync-bar">
@@ -112,26 +93,14 @@
   </div>
 
   <div class="metrics">
-    <div class="metric m1">
-      <div class="metric-label">✅ 招待済み</div>
-      <div class="metric-value mv-purple" id="cnt-inv">–</div>
-    </div>
-    <div class="metric m2">
-      <div class="metric-label">💬 提案中</div>
-      <div class="metric-value mv-orange" id="cnt-pro">–</div>
-    </div>
-    <div class="metric m3">
-      <div class="metric-label">🎯 残り</div>
-      <div class="metric-value mv-pink" id="cnt-rem">–</div>
-    </div>
+    <div class="metric m1"><div class="metric-label">✅ 招待済み</div><div class="metric-value mv-purple" id="cnt-inv">–</div></div>
+    <div class="metric m2"><div class="metric-label">💬 提案中</div><div class="metric-value mv-orange" id="cnt-pro">–</div></div>
+    <div class="metric m3"><div class="metric-label">🎯 残り</div><div class="metric-value mv-pink" id="cnt-rem">–</div></div>
   </div>
 
   <div class="progress-card">
     <div class="progress-bg"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
-    <div class="progress-labels">
-      <span id="prog-text">– / 12 人</span>
-      <span id="prog-pct">–%</span>
-    </div>
+    <div class="progress-labels"><span id="prog-text">– / 12 人</span><span id="prog-pct">–%</span></div>
   </div>
 
   <div class="section-title">🌸 メンバー別状況</div>
@@ -142,9 +111,10 @@
 const TARGET = 12;
 const KEY = 'suppon_v5';
 const MEMBERS = [
-  {name:'のり',    bg:'#bbf7d0', tc:'#065f46', init:'の'},
-  {name:'あきら',  bg:'#fed7aa', tc:'#9a3412', init:'あ'},
-  {name:'しょうや',bg:'#fbcfe8', tc:'#9d174d', init:'し'},
+  {name:'えりこ', bg:'#e9d5ff', tc:'#6b21a8', init:'え'},
+  {name:'のり',   bg:'#bbf7d0', tc:'#065f46', init:'の'},
+  {name:'あきら', bg:'#fed7aa', tc:'#9a3412', init:'あ'},
+  {name:'しょうや',bg:'#fbcfe8',tc:'#9d174d', init:'し'},
   {name:'千尋',   bg:'#bfdbfe', tc:'#1e40af', init:'千'},
   {name:'ゆうこ', bg:'#fef08a', tc:'#854d0e', init:'ゆ'},
 ];
@@ -161,19 +131,16 @@ function setSyncStatus(ok, msg) {
   document.getElementById('sync-dot').className = 'dot' + (ok ? '' : ' saving');
   document.getElementById('sync-status').textContent = msg;
 }
-
 function load() {
   const ls = localStorage.getItem(KEY);
   if (ls) state = JSON.parse(ls);
   setSyncStatus(true, 'ローカルに保存されています');
   render();
 }
-
 function save() {
   localStorage.setItem(KEY, JSON.stringify(state));
   setSyncStatus(true, '保存しました ✨');
 }
-
 function daysLeft() {
   const now = new Date(); now.setHours(0,0,0,0);
   const dl = new Date('2025-06-11');
@@ -181,7 +148,6 @@ function daysLeft() {
   const el = document.getElementById('days-badge');
   el.textContent = d > 0 ? '残り' + d + '日' : d === 0 ? '今日が締切！' : '締切超過';
 }
-
 function updateMetrics() {
   const inv = state.people.filter(p => p.status === 'invited').length;
   const pro = state.people.filter(p => p.status === 'propose').length;
@@ -194,13 +160,11 @@ function updateMetrics() {
   document.getElementById('prog-text').textContent = inv + ' / ' + TARGET + ' 人';
   document.getElementById('prog-pct').textContent = pct + '%';
 }
-
 function confBadge(c) {
   const m = {'高':['conf-high','🔥 高確度'],'中':['conf-mid','💬 提案中'],'低':['conf-low','👀 様子見']};
-  const [cls, label] = m[c] || ['conf-mid', '中'];
+  const [cls, label] = m[c] || ['conf-mid','中'];
   return `<span class="badge ${cls}">${label}</span>`;
 }
-
 function renderMembers() {
   const grid = document.getElementById('members-grid');
   grid.innerHTML = '';
@@ -233,7 +197,7 @@ function renderMembers() {
     const isOpen = openForms[m.name];
     const curConf = formConf[m.name] || '';
     card.innerHTML = `
-      <div class="mc-head" style="background:${m.bg}30">
+      <div class="mc-head" style="background:${m.bg}40">
         <div class="avatar" style="background:${m.bg};color:${m.tc}">${m.init}</div>
         <span class="mc-name">${m.name}</span>
         <span class="mc-stats">招待 ${invited.length} / 提案 ${propose.length}</span>
@@ -273,7 +237,6 @@ function renderMembers() {
       </div>`;
     grid.appendChild(card);
   });
-
   grid.querySelectorAll('.add-toggle').forEach(btn => {
     btn.onclick = () => {
       const mn = btn.dataset.member;
@@ -307,7 +270,6 @@ function renderMembers() {
     btn.onclick = () => { state.people.splice(parseInt(btn.dataset.i), 1); save(); render(); };
   });
 }
-
 function render() { daysLeft(); updateMetrics(); renderMembers(); }
 load();
 </script>
